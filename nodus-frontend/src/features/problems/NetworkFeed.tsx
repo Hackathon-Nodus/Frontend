@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Header } from '../../components/layout/Header';
 import { Sidebar } from '../../components/layout/Sidebar';
 import { ProblemCard } from '../../components/ui/ProblemCard';
 import { Button } from '../../components/ui/Button';
-import type { Problem } from '../../types/problem';
+import type { FeedProblem } from '../../types/problem';
 
 const filterItems = [
   { id: 'all', label: 'All', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" /></svg> },
@@ -22,35 +22,12 @@ const statusItems = [
 ];
 
 export function NetworkFeed() {
-  const [problems, setProblems] = useState<Problem[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [problems] = useState<FeedProblem[]>([]);
+  const loading = false;
   const [activeFilter, setActiveFilter] = useState('all');
   const [sortBy, setSortBy] = useState('relevance');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-
-  // Fetch problems from backend
-  useEffect(() => {
-    fetchProblems();
-  }, [activeFilter, sortBy]);
-
-  const fetchProblems = async () => {
-    setLoading(true);
-    try {
-      // TODO: Replace with actual API endpoint
-      // const response = await fetch(`/api/problems?category=${activeFilter}&sort=${sortBy}`);
-      // const data = await response.json();
-      // setProblems(data);
-      
-      // For now, set empty array
-      setProblems([]);
-    } catch (error) {
-      console.error('Error fetching problems:', error);
-      setProblems([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const filteredProblems = problems.filter(problem => {
     if (activeFilter === 'all') return true;

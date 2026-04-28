@@ -1,9 +1,9 @@
 import { Avatar } from './Avatar';
 import { Badge } from './Badge';
-import type { Problem } from '../../types/problem';
+import type { FeedProblem } from '../../types/problem';
 
 interface ProblemCardProps {
-  problem: Problem;
+  problem: FeedProblem;
   onClick?: () => void;
 }
 

@@ -1,4 +1,6 @@
-export interface Problem {
+export type FeedProblemStatus = 'open' | 'in-progress' | 'completed' | 'closed';
+
+export interface FeedProblem {
   id: string;
   title: string;
   description: string;
@@ -6,11 +8,13 @@ export interface Problem {
   companyType: string;
   category: string;
   bounty: number;
-  status: 'open' | 'in-progress' | 'completed' | 'closed';
+  status: FeedProblemStatus;
   badge?: string;
   responses: number;
   postedAt: string;
   avatar?: string;
+}
+
 export type ProblemStatus = 'open' | 'hiring' | 'closed';
 
 export interface ProblemTag {
@@ -57,7 +61,7 @@ export interface FreeSolution {
   problemTitle?: string;
 }
 
-export interface Problem {
+export interface ProblemDetail {
   _id: string;
   title: string;
   desc: string;
@@ -73,3 +77,5 @@ export interface Problem {
   commentsCount: number;
   author?: ProblemAuthor;
 }
+
+export type Problem = ProblemDetail;

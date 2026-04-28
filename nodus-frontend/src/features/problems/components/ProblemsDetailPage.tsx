@@ -10,8 +10,8 @@ import {
 } from '@heroicons/react/24/outline';
 import type { ReactNode } from 'react';
 
-import { Badge } from '../../../components/ui/badge';
-import { Button } from '../../../components/ui/button';
+import { Badge } from '../../../components/ui/Badge';
+import { Button } from '../../../components/ui/Button';
 import { Card } from '../../../components/ui/card';
 import { Input } from '../../../components/ui/input';
 import type {
