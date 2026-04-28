@@ -1,9 +1,9 @@
+import { DEFAULT_PROBLEM_QUERY_KEY } from './config/problem';
+import { ProblemsDetailPage } from './features/problems/components/ProblemsDetailPage';
+
 export default function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <h1 className="text-4xl font-bold text-white">
-        Tailwind is working 🚀
-      </h1>
-    </div>
-  );
+  const searchParams = new URLSearchParams(window.location.search);
+  const problemId = searchParams.get(DEFAULT_PROBLEM_QUERY_KEY) ?? undefined;
+
+  return <ProblemsDetailPage problemId={problemId} />;
 }
