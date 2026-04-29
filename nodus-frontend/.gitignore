@@ -28,3 +28,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+sshkey
+sshkey.pub
+*.pub
