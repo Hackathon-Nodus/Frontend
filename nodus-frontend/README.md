@@ -1,5 +1,20 @@
 # React + TypeScript + Vite
 
+## Mock API mode
+
+Run the frontend with dummy API data by using:
+
+```bash
+npm run dev:mock
+```
+
+This starts the app with Mock Service Worker enabled in development and intercepts the existing `/problems` and `/problems/:problemId` requests.
+
+Mock IDs you can try in the URL:
+
+- `?problemId=problem-ethiopian-logistics-ai`
+- `?problemId=problem-health-triage-assistant`
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
