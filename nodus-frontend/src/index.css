@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* -----------------------------
+   BASE THEME (LIGHT MODE DEFAULT)
+------------------------------*/
 @layer base {
   :root {
     color: #0f172a;
@@ -12,6 +15,10 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  html.dark {
+    color: white;
   }
 
   * {
