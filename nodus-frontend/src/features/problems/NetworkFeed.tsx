@@ -4,6 +4,7 @@ import { Sidebar } from '../../components/layout/Sidebar';
 import { ProblemCard } from '../../components/ui/ProblemCard';
 import { Button } from '../../components/ui/Button';
 import type { FeedProblem } from '../../types/problem';
+import { useTheme } from '../../context/ThemeContext';
 
 const filterItems = [
   { id: 'all', label: 'All', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" /></svg> },
@@ -22,6 +23,7 @@ const statusItems = [
 ];
 
 export function NetworkFeed() {
+  const { isDarkMode } = useTheme(); // Get theme state
   const [problems] = useState<FeedProblem[]>([]);
   const loading = false;
   const [activeFilter, setActiveFilter] = useState('all');
@@ -44,7 +46,7 @@ export function NetworkFeed() {
   );
 
   return (
-    <div className="min-h-screen bg-surface-gray pt-16">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 pt-16">
       <Header />
       
       <div className="flex">
@@ -60,19 +62,19 @@ export function NetworkFeed() {
         <main className="flex-1 ml-64 p-8">
           <div className="max-w-6xl">
             <div className="mb-6">
-              <h1 className="text-3xl font-display font-bold text-content-charcoal mb-2">Network Feed</h1>
-              <p className="text-content-slate">Browse and engage with active architectural & technical challenges.</p>
+              <h1 className="text-3xl font-display font-bold text-gray-900 dark:text-white mb-2">Network Feed</h1>
+              <p className="text-gray-600 dark:text-gray-400">Browse and engage with active architectural & technical challenges.</p>
             </div>
 
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-content-slate" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                 </svg>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="text-sm text-content-slate border-none focus:outline-none bg-transparent cursor-pointer"
+                  className="text-sm text-gray-600 dark:text-gray-400 border-none focus:outline-none bg-transparent cursor-pointer"
                 >
                   <option value="relevance">Sort by: Relevance</option>
                   <option value="recent">Sort by: Most Recent</option>
@@ -86,21 +88,21 @@ export function NetworkFeed() {
             {loading ? (
               <div className="flex items-center justify-center py-20">
                 <div className="text-center">
-                  <svg className="animate-spin h-10 w-10 text-indigo-electric mx-auto mb-4" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-10 w-10 text-indigo-600 dark:text-indigo-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <p className="text-content-slate">Loading problems...</p>
+                  <p className="text-gray-600 dark:text-gray-400">Loading problems...</p>
                 </div>
               </div>
             ) : paginatedProblems.length === 0 ? (
               <div className="flex items-center justify-center py-20">
                 <div className="text-center">
-                  <svg className="w-16 h-16 text-content-slate mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-16 h-16 text-gray-500 dark:text-gray-600 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                   </svg>
-                  <h3 className="text-xl font-display font-semibold text-content-charcoal mb-2">No problems found</h3>
-                  <p className="text-content-slate mb-6">There are no problems available at the moment.</p>
+                  <h3 className="text-xl font-display font-semibold text-gray-900 dark:text-white mb-2">No problems found</h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6">There are no problems available at the moment.</p>
                   <Button variant="primary">Post the First Problem</Button>
                 </div>
               </div>
@@ -117,7 +119,7 @@ export function NetworkFeed() {
                     <button
                       onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                       disabled={currentPage === 1}
-                      className="px-3 py-2 rounded-nodus border border-outline-subtle text-content-slate hover:bg-surface-gray disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-3 py-2 rounded-lg border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -128,10 +130,10 @@ export function NetworkFeed() {
                       <button
                         key={page}
                         onClick={() => setCurrentPage(page)}
-                        className={`px-4 py-2 rounded-nodus font-medium transition-colors ${
+                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                           currentPage === page
-                            ? 'bg-indigo-electric text-white'
-                            : 'border border-outline-subtle text-content-slate hover:bg-surface-gray'
+                            ? 'bg-indigo-600 text-white'
+                            : 'border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800'
                         }`}
                       >
                         {page}
@@ -141,7 +143,7 @@ export function NetworkFeed() {
                     <button
                       onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                       disabled={currentPage === totalPages}
-                      className="px-3 py-2 rounded-nodus border border-outline-subtle text-content-slate hover:bg-surface-gray disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="px-3 py-2 rounded-lg border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

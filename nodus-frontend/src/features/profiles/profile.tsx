@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 
 interface MetricData {
   repScore: number;
@@ -22,6 +23,7 @@ interface UserProfile {
 }
 
 const Profile: React.FC = () => {
+  const { isDarkMode, toggleTheme } = useTheme(); // Use global theme
   const [activeTab, setActiveTab] = useState<'performance' | 'settings'>('performance');
   
   const [metrics] = useState({
@@ -35,7 +37,6 @@ const Profile: React.FC = () => {
     { id: 2, project: "NEXUS NODE", title: "Load Balancing Framework", verified: true },
   ]);
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<string>('');
 
@@ -94,21 +95,6 @@ const Profile: React.FC = () => {
     localStorage.setItem('weeklyDigest', JSON.stringify(weeklyDigest));
   }, [weeklyDigest]);
 
-  // Load saved theme (default to light)
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDarkMode(false);
-      document.documentElement.classList.remove('dark');
-      if (!savedTheme) {
-        localStorage.setItem('theme', 'light');
-      }
-    }
-  }, []);
-
   // Reset form values when modal opens for profile
   useEffect(() => {
     if (modalType === 'Profile Information' && showModal) {
@@ -117,20 +103,6 @@ const Profile: React.FC = () => {
       setRole(userProfile.role);
     }
   }, [modalType, showModal, userProfile.fullName, userProfile.email, userProfile.role]);
-
-  // Toggle Theme Function
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-
-    if (newMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  };
 
   // Save profile information and update sidebar
   const saveProfileInfo = () => {

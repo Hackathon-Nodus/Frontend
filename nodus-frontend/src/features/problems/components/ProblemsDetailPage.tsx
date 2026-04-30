@@ -22,6 +22,7 @@ import type {
 } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { useProblemDetail } from '../hooks/useProblemDetail';
+import { useTheme } from '../../../context/ThemeContext';
 
 interface ProblemsDetailPageProps {
   problemId?: string;
@@ -44,6 +45,7 @@ const isMockApiEnabled =
 
 export function ProblemsDetailPage({ problemId }: ProblemsDetailPageProps) {
   const { data: problem, error, isError, isLoading } = useProblemDetail(problemId);
+  const { isDarkMode } = useTheme();
 
   if (isLoading) {
     return (
@@ -83,6 +85,8 @@ export function ProblemsDetailPage({ problemId }: ProblemsDetailPageProps) {
 }
 
 function ProblemDetailContent({ problem }: { problem: Problem }) {
+  const { isDarkMode } = useTheme();
+  
   const normalizedComments = problem.comments.map((comment, index) =>
     normalizeComment(comment, index),
   );
@@ -96,15 +100,15 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
   const authorName = problem.author?.companyName ?? problem.author?.name ?? problem.createdBy;
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-gray-50 dark:bg-zinc-950 px-4 py-8 text-gray-900 dark:text-white sm:px-6 lg:px-8 transition-colors duration-200">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <button className="inline-flex items-center gap-3 text-sm font-semibold text-slate-700 transition hover:text-slate-950">
+          <button className="inline-flex items-center gap-3 text-sm font-semibold text-gray-700 dark:text-gray-300 transition hover:text-gray-950 dark:hover:text-white">
             <ArrowLeftIcon className="h-5 w-5" />
             Back to Feed
           </button>
           {isMockApiEnabled ? (
-            <Badge className="border border-emerald-200 bg-emerald-50 text-emerald-700">
+            <Badge className="border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
               Mock API enabled
             </Badge>
           ) : null}
@@ -113,7 +117,7 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
         <div className="mt-8 grid gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
           <section className="space-y-8">
             <div className="space-y-6">
-              <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
                 <Badge>{primaryStack[0] ? `#${primaryStack[0]}` : '#Problem'}</Badge>
                 <div className="inline-flex items-center gap-2">
                   <ClockIcon className="h-4 w-4" />
@@ -123,10 +127,10 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
               </div>
 
               <div className="space-y-4">
-                <h1 className="max-w-4xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
+                <h1 className="max-w-4xl text-4xl font-black tracking-tight text-gray-950 dark:text-white sm:text-5xl">
                   {problem.title}
                 </h1>
-                <p className="max-w-4xl text-lg leading-8 text-slate-600">
+                <p className="max-w-4xl text-lg leading-8 text-gray-600 dark:text-gray-400">
                   {problem.desc}
                 </p>
               </div>
@@ -153,12 +157,12 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
               </div>
             </div>
 
-            <Card className="overflow-hidden border-indigo-200 bg-[linear-gradient(180deg,_rgba(99,102,241,0.10),_rgba(255,255,255,0.88))] p-6 sm:p-8">
-              <div className="flex items-center gap-3 text-indigo-700">
+            <Card className="overflow-hidden border-indigo-200 dark:border-indigo-800 bg-[linear-gradient(180deg,_rgba(99,102,241,0.10),_rgba(255,255,255,0.88))] dark:bg-[linear-gradient(180deg,_rgba(99,102,241,0.05),_rgba(24,24,27,0.95))] p-6 sm:p-8 transition-colors duration-200">
+              <div className="flex items-center gap-3 text-indigo-700 dark:text-indigo-400">
                 <SparklesIcon className="h-6 w-6" />
                 <h2 className="text-2xl font-bold">Architectural AI Analysis</h2>
               </div>
-              <div className="mt-5 whitespace-pre-line text-base leading-8 text-indigo-900/90">
+              <div className="mt-5 whitespace-pre-line text-base leading-8 text-indigo-900/90 dark:text-indigo-300/90">
                 {problem.AIAnalysis}
               </div>
             </Card>
@@ -171,7 +175,7 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
                 />
                 <div className="grid max-w-4xl gap-4 md:grid-cols-2">
                   {normalizedFreeSolutions.map((solution) => (
-                    <Card className="p-5" key={solution._id}>
+                    <Card className="p-5 bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800" key={solution._id}>
                       <div className="flex h-full flex-col gap-3">
                         <div className="flex items-start gap-3">
                           <div
@@ -183,10 +187,10 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
                             {solution.initials}
                           </div>
                           <div className="min-w-0">
-                            <p className="font-semibold text-slate-950">
+                            <p className="font-semibold text-gray-950 dark:text-white">
                               {solution.submittedByName ?? solution.submittedBy}
                             </p>
-                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-500">
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
                               <span>{solution.submittedByTitle ?? 'Community solver'}</span>
                               {solution.createdAt ? (
                                 <span>{formatRelativeDate(solution.createdAt)}</span>
@@ -194,15 +198,15 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
                             </div>
                           </div>
                         </div>
-                        <h3 className="text-xl font-bold text-slate-950">
+                        <h3 className="text-xl font-bold text-gray-950 dark:text-white">
                           {solution.title}
                         </h3>
-                        <p className="text-sm leading-7 text-slate-600">
+                        <p className="text-sm leading-7 text-gray-600 dark:text-gray-400">
                           {solution.description}
                         </p>
                         {solution.link ? (
                           <a
-                            className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-indigo-700 transition hover:text-indigo-900"
+                            className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-indigo-700 dark:text-indigo-400 transition hover:text-indigo-900 dark:hover:text-indigo-300"
                             href={solution.link}
                             rel="noreferrer"
                             target="_blank"
@@ -226,7 +230,7 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
 
               <div className="max-w-4xl space-y-4">
                 {normalizedComments.map((comment) => (
-                  <Card className="p-6 sm:p-7" key={comment.id}>
+                  <Card className="p-6 sm:p-7 bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800" key={comment.id}>
                     <div className="flex items-start gap-4">
                       <div
                         className={cn(
@@ -238,22 +242,22 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                          <h3 className="text-xl font-bold text-slate-950">
+                          <h3 className="text-xl font-bold text-gray-950 dark:text-white">
                             {comment.authorName}
                           </h3>
-                          <span className="text-sm text-slate-500">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
                             {comment.authorTitle}
                           </span>
                           {comment.createdAt ? (
-                            <span className="text-sm text-slate-500">
+                            <span className="text-sm text-gray-500 dark:text-gray-400">
                               {formatRelativeDate(comment.createdAt)}
                             </span>
                           ) : null}
                         </div>
-                        <p className="mt-4 text-base leading-8 text-slate-600">
+                        <p className="mt-4 text-base leading-8 text-gray-600 dark:text-gray-400">
                           {comment.content}
                         </p>
-                        <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-slate-500">
+                        <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
                           <HandThumbUpIcon className="h-4 w-4" />
                           {comment.likes}
                         </div>
@@ -263,11 +267,12 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
                 ))}
               </div>
 
-              <Card className="max-w-4xl p-4 sm:p-5">
+              <Card className="max-w-4xl p-4 sm:p-5 bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
                 <form className="flex flex-col gap-3 sm:flex-row">
                   <Input
                     aria-label="Share your thoughts"
                     placeholder="Share your thoughts..."
+                    className="bg-white dark:bg-zinc-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 border-gray-200 dark:border-zinc-700"
                   />
                   <Button className="sm:min-w-40" size="lg" type="submit">
                     Comment
@@ -278,7 +283,7 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
           </section>
 
           <aside className="xl:sticky xl:top-8 xl:self-start">
-            <Card className="p-7">
+            <Card className="p-7 bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-800">
               <div className="space-y-7">
                 <div className="grid gap-5">
                   <KeyValue
@@ -288,7 +293,7 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
                   <Button size="lg">Share a Solution</Button>
                 </div>
 
-                <div className="grid gap-4 border-y border-slate-200 py-6">
+                <div className="grid gap-4 border-y border-gray-200 dark:border-zinc-800 py-6">
                   <SidebarStat
                     icon={CpuChipIcon}
                     label="Solutions shared"
@@ -302,16 +307,16 @@ function ProblemDetailContent({ problem }: { problem: Problem }) {
                 </div>
 
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
                     Posted by
                   </p>
                   <div className="flex items-center gap-4">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900 text-lg font-bold text-white">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-900 dark:bg-gray-700 text-lg font-bold text-white">
                       {getInitials(authorName)}
                     </div>
                     <div>
-                      <p className="text-2xl font-bold text-slate-950">{authorName}</p>
-                      <p className="text-sm text-slate-500">
+                      <p className="text-2xl font-bold text-gray-950 dark:text-white">{authorName}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         {problem.author?.title ?? 'Client'}
                       </p>
                     </div>
@@ -335,14 +340,16 @@ function ProblemState({
   icon?: typeof ClockIcon;
   title: string;
 }) {
+  const { isDarkMode } = useTheme();
+  
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <Card className="max-w-lg p-8 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 text-indigo-700">
+    <main className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-zinc-950 px-4 transition-colors duration-200">
+      <Card className="max-w-lg p-8 text-center bg-white dark:bg-zinc-900">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-400">
           <Icon className="h-7 w-7" />
         </div>
-        <h1 className="mt-5 text-2xl font-bold text-slate-950">{title}</h1>
-        <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+        <h1 className="mt-5 text-2xl font-bold text-gray-950 dark:text-white">{title}</h1>
+        <p className="mt-3 text-sm leading-7 text-gray-600 dark:text-gray-400">{description}</p>
       </Card>
     </main>
   );
@@ -355,12 +362,14 @@ function SectionHeading({
   eyebrow: string;
   title: string;
 }) {
+  const { isDarkMode } = useTheme();
+  
   return (
     <div className="space-y-2">
-      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
         {eyebrow}
       </p>
-      <h2 className="text-3xl font-black tracking-tight text-slate-950">{title}</h2>
+      <h2 className="text-3xl font-black tracking-tight text-gray-950 dark:text-white">{title}</h2>
     </div>
   );
 }
@@ -372,9 +381,11 @@ function KeyValue({
   label: string;
   value: ReactNode;
 }) {
+  const { isDarkMode } = useTheme();
+  
   return (
     <div className="space-y-2">
-      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
+      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
         {label}
       </p>
       <div>{value}</div>
@@ -391,14 +402,16 @@ function SidebarStat({
   label: string;
   value: string;
 }) {
+  const { isDarkMode } = useTheme();
+  
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 rounded-2xl bg-slate-100 p-2 text-slate-700">
+      <div className="mt-0.5 rounded-2xl bg-gray-100 dark:bg-zinc-800 p-2 text-gray-700 dark:text-gray-300">
         <Icon className="h-5 w-5" />
       </div>
       <div>
-        <p className="text-sm text-slate-500">{label}</p>
-        <p className="text-base font-semibold text-slate-900">{value}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+        <p className="text-base font-semibold text-gray-900 dark:text-white">{value}</p>
       </div>
     </div>
   );
