@@ -17,7 +17,7 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   placeholder,
   rightElement,
-  required,  // ← Add this line
+  required, 
 }) => {
   return (
     <div className="mb-4">
@@ -31,7 +31,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onChange={onChange}
         className="w-full border border-gray-300 rounded-md px-3 py-2 text-black placeholder-gray-400 focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
         placeholder={placeholder}
-        required={required}  // ← Add this line
+        required={required} 
       />
     </div>
   );
