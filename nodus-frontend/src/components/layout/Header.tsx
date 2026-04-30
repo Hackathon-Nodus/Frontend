@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useTheme } from '../../context/ThemeContext';
 import { Avatar } from '../ui/Avatar';
 
 interface HeaderProps {
@@ -7,7 +6,6 @@ interface HeaderProps {
 }
 
 export function Header({ onSearch }: HeaderProps) {
-  const { isDarkMode } = useTheme();
   const [userName, setUserName] = useState('User');
 
   // Load user profile data from localStorage

@@ -1,5 +1,3 @@
-import { useTheme } from '../../context/ThemeContext';
-
 interface SidebarItem {
   id: string;
   label: string;
@@ -18,8 +16,6 @@ interface SidebarProps {
 }
 
 export function Sidebar({ title, subtitle, items, activeItem, onItemClick, statusTitle, statusItems }: SidebarProps) {
-  const { isDarkMode } = useTheme();
-  
   return (
     <aside className="w-64 bg-white dark:bg-zinc-900 border-r border-gray-200 dark:border-zinc-800 p-6 fixed left-0 top-16 bottom-0 overflow-y-auto transition-colors duration-200">
       <div className="mb-6">

@@ -22,7 +22,6 @@ import type {
 } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { useProblemDetail } from '../hooks/useProblemDetail';
-import { useTheme } from '../../../context/ThemeContext';
 
 interface ProblemsDetailPageProps {
   problemId?: string;
@@ -45,7 +44,6 @@ const isMockApiEnabled =
 
 export function ProblemsDetailPage({ problemId }: ProblemsDetailPageProps) {
   const { data: problem, error, isError, isLoading } = useProblemDetail(problemId);
-  const { isDarkMode } = useTheme();
 
   if (isLoading) {
     return (
@@ -85,8 +83,6 @@ export function ProblemsDetailPage({ problemId }: ProblemsDetailPageProps) {
 }
 
 function ProblemDetailContent({ problem }: { problem: Problem }) {
-  const { isDarkMode } = useTheme();
-  
   const normalizedComments = problem.comments.map((comment, index) =>
     normalizeComment(comment, index),
   );
@@ -340,8 +336,6 @@ function ProblemState({
   icon?: typeof ClockIcon;
   title: string;
 }) {
-  const { isDarkMode } = useTheme();
-  
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-zinc-950 px-4 transition-colors duration-200">
       <Card className="max-w-lg p-8 text-center bg-white dark:bg-zinc-900">
@@ -362,8 +356,6 @@ function SectionHeading({
   eyebrow: string;
   title: string;
 }) {
-  const { isDarkMode } = useTheme();
-  
   return (
     <div className="space-y-2">
       <p className="text-sm font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
@@ -381,8 +373,6 @@ function KeyValue({
   label: string;
   value: ReactNode;
 }) {
-  const { isDarkMode } = useTheme();
-  
   return (
     <div className="space-y-2">
       <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400">
@@ -402,8 +392,6 @@ function SidebarStat({
   label: string;
   value: string;
 }) {
-  const { isDarkMode } = useTheme();
-  
   return (
     <div className="flex items-start gap-3">
       <div className="mt-0.5 rounded-2xl bg-gray-100 dark:bg-zinc-800 p-2 text-gray-700 dark:text-gray-300">

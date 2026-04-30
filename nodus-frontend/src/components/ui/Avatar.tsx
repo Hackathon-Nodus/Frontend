@@ -1,4 +1,3 @@
-import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 
 interface AvatarProps {
@@ -11,7 +10,6 @@ interface AvatarProps {
 }
 
 export function Avatar({ src, alt, fallback, size = 'md', onClick, userName }: AvatarProps) {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const sizes = {
     sm: 'w-8 h-8 text-xs',

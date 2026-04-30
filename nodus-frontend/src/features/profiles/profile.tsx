@@ -2,19 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 
-interface MetricData {
-  repScore: number;
-  totalSolves: number;
-  successRate: number;
-}
-
-interface Integration {
-  id: number;
-  project: string;
-  title: string;
-  verified: boolean;
-}
-
 interface UserProfile {
   fullName: string;
   email: string;
@@ -95,15 +82,6 @@ const Profile: React.FC = () => {
     localStorage.setItem('weeklyDigest', JSON.stringify(weeklyDigest));
   }, [weeklyDigest]);
 
-  // Reset form values when modal opens for profile
-  useEffect(() => {
-    if (modalType === 'Profile Information' && showModal) {
-      setFullName(userProfile.fullName);
-      setEmail(userProfile.email);
-      setRole(userProfile.role);
-    }
-  }, [modalType, showModal, userProfile.fullName, userProfile.email, userProfile.role]);
-
   // Save profile information and update sidebar
   const saveProfileInfo = () => {
     if (!fullName.trim()) {
@@ -141,6 +119,11 @@ const Profile: React.FC = () => {
   };
 
   const handleSettingClick = (title: string) => {
+    if (title === 'Profile Information') {
+      setFullName(userProfile.fullName);
+      setEmail(userProfile.email);
+      setRole(userProfile.role);
+    }
     setModalType(title);
     setShowModal(true);
   };

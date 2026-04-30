@@ -46,8 +46,8 @@ const SignUp: React.FC = () => {
       alert('Registration successful! Please sign in.');
       window.location.href = '/signin';
       
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
       setLoading(false);
     }
